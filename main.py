@@ -32,15 +32,21 @@ class Cafe(db.Model):
 def home():
     return render_template("index.html")
 
+
+## HTTP GET - Read Record
 @app.route("/random")
-def random():
+def random_cafe():
     all_cafes = db.session.query(Cafe).all()
     random_cafe = choice(all_cafes)
     random_cafe_data = random_cafe.to_dict()
     return jsonify(random_cafe_data)
-        
 
-## HTTP GET - Read Record
+
+@app.route("/all")
+def get_all_cafes():
+    all_cafes = db.session.query(Cafe).all()
+    all_cafes_data = [cafe.to_dict() for cafe in all_cafes]
+    return all_cafes_data
 
 ## HTTP POST - Create Record
 
