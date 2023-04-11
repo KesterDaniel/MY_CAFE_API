@@ -99,6 +99,18 @@ def update_price(id):
         return jsonify({"message": "Updated"})
 
 ## HTTP DELETE - Delete Record
+@app.route("/report-closed/<int:id>", methods=["DELETE"])
+def delete_cafe(id):
+    if request.method == "DELETE":
+        if request.headers["api_key"] == "thegreatkey24":
+            cafe_to_delete = Cafe.query.get(id)
+            if cafe_to_delete is None:
+                return jsonify({"message": "Soory cant find the cafe"})
+            db.session.delete(cafe_to_delete)
+            db.session.commit()
+            return jsonify({"message": "It will be missed"})
+        else:
+            return jsonify({"message": "API KEY not authorized"})
 
 
 if __name__ == '__main__':
