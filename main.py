@@ -48,6 +48,18 @@ def get_all_cafes():
     all_cafes_data = [cafe.to_dict() for cafe in all_cafes]
     return all_cafes_data
 
+@app.route(f"/search")
+def locate_cafe():
+    cafe = Cafe.query.filter_by(location=request.args.get("loc")).first()
+    if cafe is None:
+        message = {
+            "error": {
+                "not found": "Sorry, we could not find a cafe in the specified location"
+            }
+        }
+        return jsonify(message)
+    return(jsonify(cafe.to_dict()))
+
 ## HTTP POST - Create Record
 
 ## HTTP PUT/PATCH - Update Record
